@@ -18,6 +18,7 @@ import { ArrowLeftIcon } from '../icons/ArrowLeft';
 import { ArrowRightIcon } from '../icons/ArrowRight';
 import { useHistory } from 'react-router-dom';
 import { useSpotify } from '../spotify/hooks/useSpotify';
+import { UserIcon } from '../icons/User';
 
 interface HeaderProps {}
 
@@ -46,22 +47,22 @@ export const Header: React.FC<HeaderProps> = (props) => {
 			}}
 		>
 			<div>
-				<Space size='large' direction='horizontal'>
-					<Space size='small' direction='horizontal'>
+				<Space size="large" direction="horizontal">
+					<Space size="small" direction="horizontal">
 						<Button
-							shape='circle'
+							shape="circle"
 							icon={<ArrowLeftIcon />}
 							onClick={history.goBack}
 						/>
 						<Button
-							shape='circle'
+							shape="circle"
 							icon={<ArrowRightIcon />}
 							onClick={history.goForward}
 						/>
 					</Space>
 
 					<Input.Search
-						placeholder='Search for what you love'
+						placeholder="Search for what you love"
 						onSearch={(value) => console.log(value)}
 						css={{ width: 250 }}
 					/>
@@ -81,7 +82,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
 				}
 			>
 				<Space
-					direction='horizontal'
+					direction="horizontal"
 					css={{
 						':hover': {
 							cursor: 'pointer',
@@ -101,7 +102,10 @@ export const Header: React.FC<HeaderProps> = (props) => {
 							<Typography.Text strong>
 								{data?.display_name}
 							</Typography.Text>
-							<Avatar src={data?.images[0].url} />
+							<Avatar
+								src={data?.images[0]?.url}
+								icon={<UserIcon />}
+							/>
 						</React.Fragment>
 					)}
 				</Space>
