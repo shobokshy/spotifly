@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSpotify } from './hooks/useSpotify';
 import ScriptTag from 'react-script-tag';
+import { useSpotify } from './hooks/useSpotify';
 import { PlaybackPlayer, PlaybackState } from './types';
 
 export const SpotifyPlayerContext = React.createContext<{
@@ -11,7 +11,7 @@ export const SpotifyPlayerContext = React.createContext<{
 interface SpotifyPlayerProps {}
 
 export const SpotifyPlayer: React.FC<SpotifyPlayerProps> = (props) => {
-	const name = 'Keltonfy';
+	const name = 'Spotifly';
 	const [SDKReady, setSDKReady] = React.useState<boolean>(false);
 	const [player, setPlayer] = React.useState<PlaybackPlayer>();
 	const [playerState, setPlayerState] = React.useState<PlaybackState>();
@@ -50,8 +50,8 @@ export const SpotifyPlayer: React.FC<SpotifyPlayerProps> = (props) => {
 	return (
 		<SpotifyPlayerContext.Provider value={{ player, playerState }}>
 			<ScriptTag
-				type='text/javascript'
-				src='https://sdk.scdn.co/spotify-player.js'
+				type="text/javascript"
+				src="https://sdk.scdn.co/spotify-player.js"
 			/>
 			{player && props.children}
 		</SpotifyPlayerContext.Provider>

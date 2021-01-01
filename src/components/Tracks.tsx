@@ -1,11 +1,11 @@
+import { Button, List } from 'antd';
 import React from 'react';
+import { useIntersect } from '../hooks/useIntersect';
 import { useSpotifyPaginatedQuery } from '../spotify/hooks/useSpotifyPaginatedQuery';
+import { useSpotifyQuery } from '../spotify/hooks/useSpotifyQuery';
 import { TrackInfo, User } from '../spotify/types';
 import { CollectionHeader } from './CollectionHeader';
-import { List, Button } from 'antd';
 import { Track } from './Track';
-import { useSpotifyQuery } from '../spotify/hooks/useSpotifyQuery';
-import { useIntersect } from '../hooks/useIntersect';
 
 interface TracksProps {}
 
@@ -30,15 +30,15 @@ export const Tracks: React.FC<TracksProps> = (props) => {
 		<React.Fragment>
 			{data && user && (
 				<CollectionHeader
-					title='Liked Songs'
-					type='Playlist'
+					title="Liked Songs"
+					type="Playlist"
 					author={user?.display_name}
 					duration={0}
 				/>
 			)}
 
 			<List
-				itemLayout='horizontal'
+				itemLayout="horizontal"
 				loading={isFetching && isFetchingMore !== 'next'}
 			>
 				{data?.map((group, i) => (
@@ -47,6 +47,9 @@ export const Tracks: React.FC<TracksProps> = (props) => {
 							<Track
 								key={item.added_at.toString()}
 								track={item.track}
+								contextUris={group?.items.map(
+									(i) => i.track.uri
+								)}
 							/>
 						))}
 					</React.Fragment>
@@ -56,7 +59,7 @@ export const Tracks: React.FC<TracksProps> = (props) => {
 				<Button
 					loading={isFetchingMore === 'next'}
 					block
-					type='text'
+					type="text"
 					ref={ref}
 				>
 					Loading...
