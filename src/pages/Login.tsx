@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
+import { Button, Layout, Typography } from 'antd';
 import React from 'react';
-import { useSpotifyLogin } from '../spotify/hooks/useSpotifyLogin';
-import { Layout, Typography, Button } from 'antd';
 import { StaticBackground } from '../components/StaticBackground';
+import { useSpotifyLogin } from '../spotify/hooks/useSpotifyLogin';
 
 interface LoginProps {}
 
@@ -22,10 +22,10 @@ export const Login: React.FC<LoginProps> = (props) => {
 				css={{ color: '#fff !important', textShadow: '0 0 6px #fff' }}
 				level={1}
 			>
-				Keltonfy
+				Spotifly
 			</Typography.Title>
 			<Button
-				type='primary'
+				type="primary"
 				onClick={() => login()}
 				css={{ boxShadow: '0 0 6px #1DB954' }}
 			>

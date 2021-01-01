@@ -1,17 +1,16 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-
+import { Button, Divider, Layout, Menu, Space, Typography } from 'antd';
 import React from 'react';
-import { Layout, Typography, Menu, Space, Button, Divider } from 'antd';
-import { SpotifyIcon } from '../icons/Spotify';
-import { HomeIcon } from '../icons/Home';
-import { DiscIcon } from '../icons/Disc';
-import { AddIcon } from '../icons/Add';
-import { HeartIcon } from '../icons/Heart';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Playlist } from '../spotify/types';
-import { useSpotifyPaginatedQuery } from '../spotify/hooks/useSpotifyPaginatedQuery';
 import { useIntersect } from '../hooks/useIntersect';
+import { AddIcon } from '../icons/Add';
+import { DiscIcon } from '../icons/Disc';
+import { HeartIcon } from '../icons/Heart';
+import { HomeIcon } from '../icons/Home';
+import { SpotifyIcon } from '../icons/Spotify';
+import { useSpotifyPaginatedQuery } from '../spotify/hooks/useSpotifyPaginatedQuery';
+import { Playlist } from '../spotify/types';
 
 interface NavigationProps {}
 
@@ -51,7 +50,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 				<Typography.Title css={{ color: '#fff !important' }} level={2}>
 					<Space css={{ alignItems: 'center' }}>
 						<SpotifyIcon css={{ fontSize: 36 }} />
-						{!isLoading && 'Keltonfy'}
+						{!isLoading && 'Spotifly'}
 					</Space>
 				</Typography.Title>
 			</div>
@@ -64,17 +63,17 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 					fontSize: 16,
 					marginBottom: 24,
 				}}
-				mode='inline'
+				mode="inline"
 				selectedKeys={[location.pathname]}
 				onSelect={({ key }) => history.push(key.toString())}
 			>
-				<Menu.Item key='1' icon={<HomeIcon />}>
+				<Menu.Item key="1" icon={<HomeIcon />}>
 					Home
 				</Menu.Item>
-				<Menu.Item key='2' icon={<DiscIcon />}>
+				<Menu.Item key="2" icon={<DiscIcon />}>
 					Your Library
 				</Menu.Item>
-				<Menu.Item key='/collection/tracks' icon={<HeartIcon />}>
+				<Menu.Item key="/collection/tracks" icon={<HeartIcon />}>
 					Liked Songs
 				</Menu.Item>
 			</Menu>
@@ -84,8 +83,8 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 					<Button
 						css={{ textAlign: 'left' }}
 						block
-						type='text'
-						size='large'
+						type="text"
+						size="large"
 						icon={<AddIcon />}
 					>
 						Create Playlist
@@ -104,7 +103,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 								backgroundColor: 'transparent',
 								border: 'none',
 							}}
-							mode='inline'
+							mode="inline"
 							selectedKeys={[location.pathname]}
 							onSelect={({ key }) => history.push(key.toString())}
 						>
