@@ -39,7 +39,9 @@ export const Track: React.FC<TrackProps> = (props) => {
 	};
 
 	const isActive =
-		props.track.id === playerState?.track_window.current_track.id;
+		props.track.id === playerState?.track_window.current_track.id ||
+		props.track.id ===
+			playerState?.track_window.current_track.linked_from.id;
 
 	return (
 		<List.Item
