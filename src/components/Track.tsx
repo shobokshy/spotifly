@@ -1,15 +1,15 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
+import { Divider, List, Typography } from 'antd';
 import React from 'react';
-import { Track as ITrack } from '../spotify/types';
-import { List, Typography, Divider } from 'antd';
-import { MusicIcon } from '../icons/Music';
-import { msToString } from '../spotify/helpers';
+import { Link } from 'react-router-dom';
 import { HeartIcon } from '../icons/Heart';
+import { MusicIcon } from '../icons/Music';
 import { PlayIcon } from '../icons/Play';
+import { msToString } from '../spotify/helpers';
 import { useSpotifyMutation } from '../spotify/hooks/useSpotifyMutation';
 import { useSpotifyPlayer } from '../spotify/hooks/useSpotifyPlayer';
-import { Link } from 'react-router-dom';
+import { Track as ITrack } from '../spotify/types';
 
 interface TrackProps {
 	contextUri?: string;
@@ -18,11 +18,11 @@ interface TrackProps {
 }
 
 export const Track: React.FC<TrackProps> = (props) => {
-	const { player, playerState } = useSpotifyPlayer();
+	const { playerState, deviceId } = useSpotifyPlayer();
 	const [play] = useSpotifyMutation<
 		undefined,
 		{ uris?: string[]; context_uri?: string; offset: { uri: string } }
-	>('PUT', `/me/player/play?device_id=${player?._options.id}`);
+	>('PUT', `/me/player/play?device_id=${deviceId}`);
 
 	const [hovered, setHovered] = React.useState<boolean>(false);
 
@@ -39,7 +39,9 @@ export const Track: React.FC<TrackProps> = (props) => {
 	};
 
 	const isActive =
-		props.track.id === playerState?.track_window.current_track.id;
+		props.track.id === playerState?.track_window.current_track.id ||
+		props.track.id ===
+			playerState?.track_window.current_track.linked_from.id;
 
 	return (
 		<List.Item
@@ -77,7 +79,7 @@ export const Track: React.FC<TrackProps> = (props) => {
 					<React.Fragment>
 						{props.track.artists.map((artist, index) => (
 							<React.Fragment key={artist.id}>
-								<Typography.Link className='link'>
+								<Typography.Link className="link">
 									{artist.name}
 								</Typography.Link>
 								{index < props.track.artists.length - 1 && ', '}
@@ -86,9 +88,9 @@ export const Track: React.FC<TrackProps> = (props) => {
 
 						{props.track.album && (
 							<React.Fragment>
-								<Divider type='vertical' />
+								<Divider type="vertical" />
 								<Link
-									className='link'
+									className="link"
 									to={`/album/${props.track.album.id}`}
 								>
 									{props.track.album.name}

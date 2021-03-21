@@ -4,8 +4,9 @@ import { useSpotify } from './hooks/useSpotify';
 import { PlaybackPlayer, PlaybackState } from './types';
 
 export const SpotifyPlayerContext = React.createContext<{
-	player?: PlaybackPlayer;
+	player: PlaybackPlayer;
 	playerState?: PlaybackState;
+	deviceId: string;
 } | null>(null);
 
 interface SpotifyPlayerProps {}
@@ -15,6 +16,7 @@ export const SpotifyPlayer: React.FC<SpotifyPlayerProps> = (props) => {
 	const [SDKReady, setSDKReady] = React.useState<boolean>(false);
 	const [player, setPlayer] = React.useState<PlaybackPlayer>();
 	const [playerState, setPlayerState] = React.useState<PlaybackState>();
+	const [deviceId, setDeviceId] = React.useState<string>();
 	const { accessToken } = useSpotify();
 
 	React.useEffect(() => {
@@ -41,19 +43,35 @@ export const SpotifyPlayer: React.FC<SpotifyPlayerProps> = (props) => {
 	}, []);
 
 	React.useEffect(() => {
-		if (player)
+		if (player) {
+			player.addListener('ready', ({ device_id }) => {
+				setDeviceId(device_id);
+			});
 			player.addListener('player_state_changed', (state) => {
 				if (state) setPlayerState(state);
 			});
+		}
 	}, [player]);
 
 	return (
-		<SpotifyPlayerContext.Provider value={{ player, playerState }}>
+		<React.Fragment>
 			<ScriptTag
 				type="text/javascript"
 				src="https://sdk.scdn.co/spotify-player.js"
 			/>
-			{player && props.children}
-		</SpotifyPlayerContext.Provider>
+			{player && deviceId ? (
+				<SpotifyPlayerContext.Provider
+					value={{ player, playerState, deviceId }}
+				>
+					<ScriptTag
+						type="text/javascript"
+						src="https://sdk.scdn.co/spotify-player.js"
+					/>
+					{player && props.children}
+				</SpotifyPlayerContext.Provider>
+			) : (
+				<span>Loading...</span>
+			)}
+		</React.Fragment>
 	);
 };
